@@ -1,0 +1,8 @@
+#Main Body{
+    background-color: #e3f2fd;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
