@@ -1,8 +1,59 @@
-#Main Body{
-    background-color: #e3f2fd;
+#main-body{
+    margin: 0;
+    background-color: lightblue;
     min-height: 100vh;
+}
+
+#white-page{
+    background-color: #fff;
+    width: 800px;
+    min-height: 1100px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    padding: 40px;
+}
+
+#toolbar{
+    background-color:  lightgrey;
+    border-bottom: 1px solid #ddd;
+    padding: 45px 50px;
+    display: flex;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+#toolbar button{
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+#toolbar button:hover{
+    background-color: #e9ecef;
+}
+
+#toolbar button:active{
+    background-color: #dee2e6;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#toolbar select{
+    border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 14px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.yourwordfile{
     display: flex;
     justify-content: center;
     padding: 20px;
-    overflow-y: auto;
 }
