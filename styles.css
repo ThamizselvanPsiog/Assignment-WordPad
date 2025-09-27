@@ -15,10 +15,11 @@
 #toolbar{
     background-color:  lightgrey;
     border-bottom: 1px solid #ddd;
-    padding: 45px 50px;
+    padding: 30px 50px;
     display: flex;
     gap: 10px;
     position: sticky;
+    flex-wrap: wrap;
     top: 0;
     z-index: 1000;
     width: 100%;
@@ -32,6 +33,8 @@
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s, box-shadow 0.2s;
+    min-width: 32px;
+    text-align: center;
 }
 
 #toolbar button:hover{
@@ -43,17 +46,62 @@
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
-#toolbar select{
+#toolbar select, 
+#toolbar input[type="color"]{
     border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 5px;
-  font-size: 14px;
-  background-color: white;
-  cursor: pointer;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.toolbar-group{
+    display: flex;
+    gap: 5px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+}
+
+.file-menu{
+    position: relative;
 }
 
 .yourwordfile{
     display: flex;
     justify-content: center;
     padding: 20px;
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    top: 38px;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 150px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1001;
+    flex-direction: column;
+}
+
+.dropdown-content button{
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    border: none;
+    background-color: white;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    border-radius: 0;
+}
+.dropdown-content button:hover{
+    background-color: #f1f1f1;
+}
+.dropdown-content.show{
+    display: flex;
 }
