@@ -4,12 +4,43 @@
         <title>MakeYourWord</title>
         <link rel="stylesheet" href="styles.css"></link>
     </head>
-    <body>
+    <body id="main-body">
+        <div id="toolbar">
+            <button data-command="bold"><b>B</b></button>
+            <button data-command="italic"><i>I</i></button>
+            <button data-command="underline"><u>U</u></button>
+
+            <select>
+                <option value="3">Normal</option>
+                <option value="4">Medium</option>
+                <option value="5">Large</option>
+                <option value="6">XL</option>
+                <option value="7">XXL</option>
+                <option>Title</option>
+                <option>Subtitle</option>
+            </select>
+
+            <input type="color" id="font-color" title="Text color" />
+
+            <button data-command="justifyLeft">⯇</button>
+            <button data-command="justifyCenter">≡</button>
+            <button data-command="justifyRight">⯈</button>
+            <button data-command="justifyFull">☰</button>
+
+            <button data-command="outdent">⇤</button>
+            <button data-command="indent">⇥</button>
+        
+            <button>• List</button>
+            <button>1. List</button>
+
+            <button id="insert-link">🔗</button>
+            <button id="insert-image">🖼️</button>
+
+            <button id="find-replace">🔍</button>
+        </div>
         <div class="yourwordfile">
-            <div id="Toolbar">
-            </div>
-            <div id="Main Body">
-                <div id="white page">
+            <div id="main">
+                <div id="white-page">
                 </div>
             </div>
             <div id="footer">
