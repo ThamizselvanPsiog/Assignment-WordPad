@@ -6,62 +6,77 @@
     </head>
     <body id="main-body">
         <div id="toolbar">
-            <div class="toolbar-group logo-menu">
-                <button id="logo">📄</button>
-                <div id="logo-dropdown" class="dropdown-content">
-                    <button>New Page</button>
-                    <button>Save</button>
-                    <button>Save As</button>
-                    <button>Email</button>
-                    <button>Download</button>
-                    <button>Print</button>
+            <div class="toolbar-inner">
+                <div class="toolbar-group logo-menu">
+                    <button id="logo">
+                        <img src="logo.png" alt="mkw" style="height: 50px;">
+                    </button>
+                    <div id="logo-dropdown" class="dropdown-content">
+                        <button>New Page</button>
+                        <button>Save</button>
+                        <button>Save As</button>
+                        <button>Email</button>
+                        <button>Download</button>
+                        <button>Print</button>
+                    </div>
                 </div>
-            </div>
-            <div class="toolbar-group">
-                <button data-command="bold"><b>B</b></button>
-                <button data-command="italic"><i>I</i></button>
-                <button data-command="underline"><u>U</u></button>
+                <div class="toolbar-right">
+                    <div class="toolbar-group">
+                        <button data-command="bold"><b>B</b></button>
+                        <button data-command="italic"><i>I</i></button>
+                        <button data-command="underline"><u>U</u></button>
+        
+                        <select>
+                            <option value="3">Normal</option>
+                            <option value="4">Medium</option>
+                            <option value="5">Large</option>
+                            <option value="6">XL</option>
+                            <option value="7">XXL</option>
+                            <option>Title</option>
+                            <option>Subtitle</option>
+                        </select>
+        
+                        <input type="color" id="font-color" title="Text color" />
+                    </div>
+        
+                    <div class="toolbar-group">
+                        <button data-command="justifyLeft">⯇</button>
+                        <button data-command="justifyCenter">≡</button>
+                        <button data-command="justifyRight">⯈</button>
+                        <button data-command="justifyFull">☰</button>
+            
+                        <button data-command="outdent">⇤</button>
+                        <button data-command="indent">⇥</button>
+                    </div>
+        
+                    <div class="toolbar-group">
+                        <button data-command="insertolist">• List</button>
+                        <button data-command="insetulist">1. List</button>
+                    </div>
+        
+                    <div class="toolbar-group">
+                        <button id="insert-link">🔗</button>
+                        <button id="insert-image">🖼️</button>
+                        <button id="insert-table">📊 Table</button>
+                    </div>
+        
+                    <div class="toolbar-group">
+                        <button data-command="undo">↶</button>
+                        <button data-command="redo">↷</button>
+                    </div>
 
-                <select>
-                    <option value="3">Normal</option>
-                    <option value="4">Medium</option>
-                    <option value="5">Large</option>
-                    <option value="6">XL</option>
-                    <option value="7">XXL</option>
-                    <option>Title</option>
-                    <option>Subtitle</option>
-                </select>
-
-                <input type="color" id="font-color" title="Text color" />
-            </div>
-
-            <div class="toolbar-group">
-                <button data-command="justifyLeft">⯇</button>
-                <button data-command="justifyCenter">≡</button>
-                <button data-command="justifyRight">⯈</button>
-                <button data-command="justifyFull">☰</button>
-    
-                <button data-command="outdent">⇤</button>
-                <button data-command="indent">⇥</button>
-            </div>
-
-            <div class="toolbar-group">
-                <button data-command="insertolist">• List</button>
-                <button data-command="insetulist">1. List</button>
-            </div>
-
-            <div class="toolbar-group">
-                <button id="insert-link">🔗</button>
-                <button id="insert-image">🖼️</button>
-            </div>
-
-            <div class="toolbar-group">
-                <button data-command="undo">↶</button>
-                <button data-command="redo">↷</button>
-            </div>
-
-            <div class="toolbar-group">
-               <button id="find-replace">🔍</button>
+                    <div class="toolbar-group">
+                        <button id="clear-formatting">🧹 Clear Format</button>
+                        <button id="reset-editor">♻️ Reset</button>
+                        <button id="copy-plain">📋 Plain</button>
+                        <button id="copy-html">💻 HTML</button>
+                        <button id="preview">🔍 Preview</button>
+                    </div>
+        
+                    <div class="toolbar-group">
+                       <button id="find-replace">🔍</button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="yourwordfile">
@@ -70,6 +85,14 @@
                 </div>
             </div>
             <div id="footer">
+                <div id="footer-left">
+                    <span id="word-count">Words: 0</span>
+                    <span id="page-count">Number Of Pages: 0</span>
+                </div>
+                <div id="footer-right">
+                    <label for="zoom-slider">Zoom: 0</label>
+                    <input type="range" id="zoom-slider" min="50" max="200" value="100">200
+                </div>
             </div>
         </div>
     </body>
