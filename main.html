@@ -6,37 +6,63 @@
     </head>
     <body id="main-body">
         <div id="toolbar">
-            <button data-command="bold"><b>B</b></button>
-            <button data-command="italic"><i>I</i></button>
-            <button data-command="underline"><u>U</u></button>
+            <div class="toolbar-group logo-menu">
+                <button id="logo">📄</button>
+                <div id="logo-dropdown" class="dropdown-content">
+                    <button>New Page</button>
+                    <button>Save</button>
+                    <button>Save As</button>
+                    <button>Email</button>
+                    <button>Download</button>
+                    <button>Print</button>
+                </div>
+            </div>
+            <div class="toolbar-group">
+                <button data-command="bold"><b>B</b></button>
+                <button data-command="italic"><i>I</i></button>
+                <button data-command="underline"><u>U</u></button>
 
-            <select>
-                <option value="3">Normal</option>
-                <option value="4">Medium</option>
-                <option value="5">Large</option>
-                <option value="6">XL</option>
-                <option value="7">XXL</option>
-                <option>Title</option>
-                <option>Subtitle</option>
-            </select>
+                <select>
+                    <option value="3">Normal</option>
+                    <option value="4">Medium</option>
+                    <option value="5">Large</option>
+                    <option value="6">XL</option>
+                    <option value="7">XXL</option>
+                    <option>Title</option>
+                    <option>Subtitle</option>
+                </select>
 
-            <input type="color" id="font-color" title="Text color" />
+                <input type="color" id="font-color" title="Text color" />
+            </div>
 
-            <button data-command="justifyLeft">⯇</button>
-            <button data-command="justifyCenter">≡</button>
-            <button data-command="justifyRight">⯈</button>
-            <button data-command="justifyFull">☰</button>
+            <div class="toolbar-group">
+                <button data-command="justifyLeft">⯇</button>
+                <button data-command="justifyCenter">≡</button>
+                <button data-command="justifyRight">⯈</button>
+                <button data-command="justifyFull">☰</button>
+    
+                <button data-command="outdent">⇤</button>
+                <button data-command="indent">⇥</button>
+            </div>
 
-            <button data-command="outdent">⇤</button>
-            <button data-command="indent">⇥</button>
-        
-            <button>• List</button>
-            <button>1. List</button>
+            <div class="toolbar-group">
+                <button data-command="insertolist">• List</button>
+                <button data-command="insetulist">1. List</button>
+            </div>
 
-            <button id="insert-link">🔗</button>
-            <button id="insert-image">🖼️</button>
+            <div class="toolbar-group">
+                <button id="insert-link">🔗</button>
+                <button id="insert-image">🖼️</button>
+            </div>
 
-            <button id="find-replace">🔍</button>
+            <div class="toolbar-group">
+                <button data-command="undo">↶</button>
+                <button data-command="redo">↷</button>
+            </div>
+
+            <div>
+               <button id="find-replace">🔍</button>
+            </div>
         </div>
         <div class="yourwordfile">
             <div id="main">
