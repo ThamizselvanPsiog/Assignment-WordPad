@@ -22,7 +22,7 @@
                 </div>
                 <div class="toolbar-right">
                     <div class="toolbar-group">
-                        <select>
+                        <select data-command="fontName">
                             <option value="Arial" style="font-family: Arial;">Arial</option>
                             <option value="Times New Roman" style="font-family: 'Times New Roman';">Times New Roman</option>
                             <option value="Courier New" style="font-family: 'Courier New';">Courier New</option>
@@ -33,7 +33,7 @@
                         <button data-command="italic"><i>I</i></button>
                         <button data-command="underline"><u>U</u></button>
         
-                        <select>
+                        <select data-command="fontSize">
                             <option value="3">Normal</option>
                             <option value="4">Medium</option>
                             <option value="5">Large</option>
@@ -43,7 +43,7 @@
                             <option>Subtitle</option>
                         </select>
         
-                        <input type="color" id="font-color" title="Text color" />
+                        <input type="color" id="font-color" title="Text color" data-command="foreColor" />
                     </div>
         
                     <div class="toolbar-group">
@@ -57,14 +57,14 @@
                     </div>
         
                     <div class="toolbar-group">
-                        <button data-command="insertolist">• List</button>
-                        <button data-command="insetulist">1. List</button>
+                        <button data-command="insertUnOrderedList">• List</button>
+                        <button data-command="insertOrderedList">1. List</button>
                     </div>
         
                     <div class="toolbar-group">
-                        <button id="insert-link">🔗</button>
-                        <button id="insert-image">🖼️</button>
-                        <button id="insert-table">📊 Table</button>
+                        <button id="insert-link" data-command="createLink">🔗</button>
+                        <button id="insert-image" data-command="insertImage">🖼️</button>
+                        <button id="insert-table" data-command="insertTable">📊 Table</button>
                     </div>
         
                     <div class="toolbar-group">
@@ -128,5 +128,6 @@
             if (saved) editor.innerHTML = saved;
             });
         </script>
+        <script src="font.js"></script>
     </body>
 </html>
