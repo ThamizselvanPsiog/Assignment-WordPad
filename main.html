@@ -22,6 +22,13 @@
                 </div>
                 <div class="toolbar-right">
                     <div class="toolbar-group">
+                        <select>
+                            <option value="Arial" style="font-family: Arial;">Arial</option>
+                            <option value="Times New Roman" style="font-family: 'Times New Roman';">Times New Roman</option>
+                            <option value="Courier New" style="font-family: 'Courier New';">Courier New</option>
+                            <option value="Georgia" style="font-family: Georgia;">Georgia</option>
+                        </select>
+                        
                         <button data-command="bold"><b>B</b></button>
                         <button data-command="italic"><i>I</i></button>
                         <button data-command="underline"><u>U</u></button>
@@ -76,6 +83,9 @@
                     <div class="toolbar-group">
                        <button id="find-replace">🔍</button>
                     </div>
+                    <div class="toolbar-group">
+                        <button id="toggle-theme">🌙</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,5 +105,28 @@
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById("toggle-theme").addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", 
+              document.body.classList.contains("dark-mode") ? "dark" : "light"
+            );
+            });
+            window.addEventListener("load", () => {
+              if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-mode");
+              }
+            });
+        </script>
+        <script>
+            const editor = document.getElementById("white-page");
+            editor.addEventListener("input", () => {
+            localStorage.setItem("documentContent", editor.innerHTML);
+            });
+            window.addEventListener("load", () => {
+            const saved = localStorage.getItem("documentContent");
+            if (saved) editor.innerHTML = saved;
+            });
+        </script>
     </body>
 </html>
