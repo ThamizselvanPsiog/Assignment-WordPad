@@ -4,14 +4,22 @@
     min-height: 100vh;
 }
 
-#white-page{
+.page {
     background-color: #fff;
     width: 800px;
-    margin: 0 auto;
     min-height: 1100px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin: 20px 0;
     padding: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     box-sizing: border-box;
+    overflow: hidden;
+    page-break-after: always;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.page:focus {
+    outline: 2px solid #3399ff;
 }
 
 #main-body.dark-mode{
@@ -45,8 +53,11 @@ body.dark-mode #toolbar button{
 
 #main {
     padding-top: 150px;
-    height: 100vh;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 60px);
 }
 
 
