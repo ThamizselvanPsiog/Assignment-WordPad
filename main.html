@@ -12,12 +12,12 @@
                         <img src="logo.png" alt="mkw" style="height: 50px;">
                     </button>
                     <div id="logo-dropdown" class="dropdown-content">
-                        <button>New Page</button>
-                        <button>Save</button>
-                        <button>Save As</button>
-                        <button>Email</button>
-                        <button>Download</button>
-                        <button>Print</button>
+                        <button data-command="new-page">New Page</button>
+                        <button data-command="save">Save</button>
+                        <button data-command="save-as">Save As</button>
+                        <button data-command="email">Email</button>
+                        <button data-command="download">Download</button>
+                        <button data-command="print">Print</button>
                     </div>
                 </div>
                 <div class="toolbar-right">
@@ -73,15 +73,15 @@
                     </div>
 
                     <div class="toolbar-group">
-                        <button id="clear-formatting">🧹 Clear Format</button>
-                        <button id="reset-editor">♻️ Reset</button>
-                        <button id="copy-plain">📋 Plain</button>
-                        <button id="copy-html">💻 HTML</button>
-                        <button id="preview">🔍 Preview</button>
+                        <button id="clear-formatting" data-command="clear-formatting">🧹 Clear Format</button>
+                        <button id="reset-editor" data-command="reset-editor">♻️ Reset</button>
+                        <button id="copy-plain" data-command="copy-plain">📋 Plain</button>
+                        <button id="copy-html" data-command="copy-html">💻 HTML</button>
+                        <button id="preview" data-command="preview">🔍 Preview</button>
                     </div>
         
                     <div class="toolbar-group">
-                       <button id="find-replace">🔍</button>
+                       <button id="find-replace" data-command="find-replace">🔍</button>
                     </div>
                     <div class="toolbar-group">
                         <button id="toggle-theme">🌙</button>
@@ -91,7 +91,8 @@
         </div>
         <div class="yourwordfile">
             <div id="main">
-                <div id="white-page" contenteditable="true">
+                <div id="white-page">
+                    <div class="page" contenteditable="true"></div>
                 </div>
             </div>
             <div id="footer">
@@ -129,5 +130,6 @@
             });
         </script>
         <script src="font.js"></script>
+        <script src="dropdown.js"></script>
     </body>
 </html>
