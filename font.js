@@ -20,6 +20,12 @@ class Editor {
     this.bindToolbar();
     this.bindFooter(); 
     this.bindResizing();
+    this.editor.addEventListener("input",(e)=>{
+      const page=e.target.closest(".page");
+      if(page){
+        this.checkPageOverflow(page);
+      }
+    })
   }
 
   createPage(afterPage = null) {
@@ -42,6 +48,29 @@ class Editor {
     this.activePage = page;
     return page;
   }
+
+  checkPageOverflow(page) {
+    while (page.scrollHeight > page.clientHeight) {
+      const newPage = this.createPage(page);
+  
+      let lastChild = page.lastChild;
+      if (!lastChild) break;
+  
+      if (lastChild.nodeType === Node.TEXT_NODE) {
+        let text = lastChild.textContent;
+        let splitIndex = Math.floor(text.length / 2);
+  
+        let firstHalf = text.slice(0, splitIndex);
+        let secondHalf = text.slice(splitIndex);
+  
+        lastChild.textContent = firstHalf;
+        newPage.insertBefore(document.createTextNode(secondHalf), newPage.firstChild);
+      } else {
+        newPage.insertBefore(lastChild, newPage.firstChild);
+      }
+    }
+  }
+
 
   updateWordCount() {
   const text = this.getAllPagesContent()

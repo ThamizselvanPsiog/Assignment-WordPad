@@ -131,7 +131,6 @@
             };
 
             editor.addEventListener("input", () => {
-                // updateSaveStatus("Saving...");
                 localStorage.setItem("documentContent", editor.innerHTML);
                 updateSaveStatus("Saved");
             });
