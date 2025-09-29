@@ -119,6 +119,49 @@ class Editor extends EditorBase {
         });
     }
 
+    openModal(title, inputs, callback) {
+        const modal = document.getElementById("editor-modal");
+        const titleEl = document.getElementById("modal-title");
+        const bodyEl = document.getElementById("modal-body");
+        const okBtn = document.getElementById("modal-ok");
+        const cancelBtn = document.getElementById("modal-cancel");
+    
+        titleEl.textContent = title;
+        bodyEl.innerHTML = ""; 
+
+        inputs.forEach(inp => {
+            const wrapper = document.createElement("div");
+            wrapper.style.margin = "8px 0";
+            const label = document.createElement("label");
+            label.textContent = inp.label;
+            const field = document.createElement("input");
+            field.type = inp.type || "text";
+            field.value = inp.value || "";
+            field.id = inp.name;
+            wrapper.appendChild(label);
+            wrapper.appendChild(document.createElement("br"));
+            wrapper.appendChild(field);
+            bodyEl.appendChild(wrapper);
+        });
+    
+        modal.classList.remove("hidden");
+    
+        const close = () => {
+            modal.classList.add("hidden");
+            okBtn.onclick = cancelBtn.onclick = null;
+        };
+    
+        okBtn.onclick = () => {
+            const values = {};
+            inputs.forEach(inp => {
+                values[inp.name] = document.getElementById(inp.name).value;
+            });
+            callback(values,close);
+            close();
+        };
+        cancelBtn.onclick = close;
+    }
+
     bindToolbar() {
         this.toolbar.querySelectorAll("button[data-command]").forEach((btn) => {
             btn.addEventListener("mousedown", (e) => e.preventDefault());
@@ -165,11 +208,11 @@ class Editor extends EditorBase {
                 break;
 
             case "copy-plain":
-                navigator.clipboard.writeText(this.getAllPagesContent()).then(() => alert("Plain text copied!"));
+                navigator.clipboard.writeText(this.getAllPagesContent().replace(/<[^>]*>/g, " ").trim()).then(() => this.openModal("Plain Text Copied!", [], () => {}, "Plain text copied!"));
                 break;
 
             case "copy-html":
-                navigator.clipboard.writeText(this.getAllPagesContent()).then(() => alert("HTML copied!"));
+                navigator.clipboard.writeText(this.getAllPagesContent()).then(() => this.openModal("HTML Copied!", [], () => {}, "HTML copied!"));
                 break;
 
             case "preview":
@@ -182,27 +225,36 @@ class Editor extends EditorBase {
                 break;
 
             case "find-replace":
-                const findtext = prompt("Enter text to find?");
-                if (!findtext) return;
-                const replaceText = prompt("Enter text to replace:", "");
-                this.editor.querySelectorAll(".page").forEach((page) => {
-                    page.innerHTML = page.innerHTML.replaceAll(findtext, replaceText);
-                });
+                this.openModal("Find and Replace",[
+                    {name: "find", label: "Find:",value:""},
+                    { name: "replace", label: "Replace with:", value: "" }
+                ],(values)=>{
+                    const findtext=values.find;
+                    const replaceText=values.replace;
+                    if (!findtext) return;
+                    this.editor.querySelectorAll(".page").forEach((page) => {
+                        page.innerHTML = page.innerHTML.replaceAll(findtext, replaceText);
+                    });
+                })
                 break;
 
             case "save":
                 localStorage.setItem("documentContent", this.getAllPagesContent());
-                alert("Document saved locally!");
+                this.openModal("Notification", [], () => {}, "Document saved locally!");
                 break;
 
             case "save-as":
-                const filename = prompt("Enter file name:", "document") || "document";
-                const blob = new Blob([this.getAllPagesContent()], { type: "application/msword" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = filename + ".doc";
-                link.click();
-                URL.revokeObjectURL(link.href);
+                this.openModal("Save As",[
+                    { name: "filename", label: "File name:", value: "document" }
+                ],(values)=>{
+                    const filename=values.filename || "document";
+                    const blob = new Blob([this.getAllPagesContent()], { type: "application/msword" });
+                    const link = document.createElement("a");
+                    link.href = URL.createObjectURL(blob);
+                    link.download = filename + ".doc";
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                });
                 break;
 
             case "email":
@@ -232,8 +284,15 @@ class Editor extends EditorBase {
         }
 
         if (btn.id === "insert-link") {
-            const url = prompt("Enter URL:", "https://");
-            if (url) document.execCommand("createLink", false, url);
+            this.restoreSelection();
+            this.openModal("Insert Link",[
+                { name: "url", label: "URL:", value: "https://" }
+            ],(values)=>{
+                if (values.url && values.url.trim()!== ""){
+                    this.restoreSelection();
+                    document.execCommand("createLink", false, values.url);  
+                }
+            })
         } else if (btn.id === "insert-image") {
             this.handleInsertImage();
         } else if (btn.id === "insert-table") {
@@ -244,9 +303,14 @@ class Editor extends EditorBase {
     }
 
     handleInsertImage() {
-        const choice = confirm("Click OK to upload from computer, Cancel for URL");
-        if (choice) {
+    this.openModal("Insert Image", [
+        { name: "source", label: "Choose Source: local or url", value: "local" }
+    ], (values,closeFirstModal) => {
+        
+        if (values.source === "local") {
+            closeFirstModal();
             const input = document.getElementById("image-upload");
+            input.onchange = null;
             input.click();
             input.onchange = (e) => {
                 const file = e.target.files[0];
@@ -259,34 +323,45 @@ class Editor extends EditorBase {
                 };
                 reader.readAsDataURL(file);
             };
-        } else {
-            const url = prompt("Enter image URL:", "https://");
-            if (url) {
-                this.restoreSelection();
-                document.execCommand("insertImage", false, url);
-                setTimeout(() => this.setupLastInserted("img"), 100);
-            }
+        } else if (values.source === "url") {
+            closeFirstModal();
+            this.openModal("Insert Image", [
+                { name: "url", label: "Image URL:", value: "https://" }
+            ], (values,closeSecondModal) => {
+                if (values.url) {
+                    this.restoreSelection();
+                    document.execCommand("insertImage", false, values.url);
+                    setTimeout(() => this.setupLastInserted("img"), 100);
+                    closeSecondModal();
+                }
+            });
         }
-    }
+    });
+}
 
     handleInsertTable() {
-        const rows = parseInt(prompt("Rows:", "2"));
-        const cols = parseInt(prompt("Columns:", "2"));
-        if (rows <= 0 || cols <= 0) return;
+        this.openModal("Insert Table", [
+           { name: "rows", label: "Rows:", value: "2", type: "number" },
+           { name: "cols", label: "Columns:", value: "2", type: "number" }
+        ], (values) => {
+            const rows = parseInt(values.rows);
+            const cols = parseInt(values.cols);
+            if (rows <= 0 || cols <= 0) return;
 
-        const placeholderId = `temp_table_placeholder_${Date.now()}`;
-        let tableHTML = `<table border="1" style="border-collapse: collapse; width: 100%; margin: 10px 0;">`;
-        for (let r = 0; r < rows; r++) {
-            tableHTML += "<tr>" + `<td style="width:${100 / cols}%; min-width:80px; min-height:30px; padding:6px;">&nbsp;</td>`.repeat(cols) + "</tr>";
-        }
-        tableHTML += "</table><br/>";
-        document.execCommand("insertHTML", false, `<span id="${placeholderId}"></span>${tableHTML}`);
-
-        const placeholder = this.activePage.querySelector(`#${placeholderId}`);
-        const insertedTable = placeholder ? placeholder.nextElementSibling : null;
-        if (placeholder) placeholder.remove();
-
-        if (insertedTable && insertedTable.tagName === "TABLE") this.setupresizer(insertedTable);
+            const placeholderId = `temp_table_placeholder_${Date.now()}`;
+            let tableHTML = `<table border="1" style="border-collapse: collapse; width: 100%; margin: 10px 0;">`;
+            for (let r = 0; r < rows; r++) {
+                tableHTML += "<tr>" + `<td style="width:${100 / cols}%; min-width:80px; min-height:30px; padding:6px;">&nbsp;</td>`.repeat(cols) + "</tr>";
+            }
+            tableHTML += "</table><br/>";
+            document.execCommand("insertHTML", false, `<span id="${placeholderId}"></span>${tableHTML}`);
+    
+            const placeholder = this.activePage.querySelector(`#${placeholderId}`);
+            const insertedTable = placeholder ? placeholder.nextElementSibling : null;
+            if (placeholder) placeholder.remove();
+    
+            if (insertedTable && insertedTable.tagName === "TABLE") this.setupresizer(insertedTable);
+        });
     }
 
     setupLastInserted(tag) {

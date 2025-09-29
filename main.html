@@ -2,9 +2,9 @@
 <html>
     <head>
         <title>MakeYourWord</title>
-        <link rel="stylesheet" href="styles.css"></link>
+        <link rel="stylesheet" href="styles.css">
 
-        <link rel="icon" type="image/png" href="logo.png"></link>
+        <link rel="icon" type="image/png" href="logo.png">
     </head>
     <body id="main-body">
         <div id="toolbar">
@@ -110,6 +110,18 @@
                 </div>
             </div>
         </div>
+
+        <div id="editor-modal" class="modal hidden">
+            <div class="modal-content">
+               <h3 id="modal-title">Title</h3>
+               <div id="modal-body"></div>
+               <div class="modal-actions">
+                 <button id="modal-ok">OK</button>
+                 <button id="modal-cancel">Cancel</button>
+               </div>
+            </div>
+        </div>
+
         <script>
             document.getElementById("toggle-theme").addEventListener("click", () => {
             document.body.classList.toggle("dark-mode");
