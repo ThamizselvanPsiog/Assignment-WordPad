@@ -67,6 +67,7 @@
                         <button id="insert-link" data-command="createLink">🔗</button>
                         <button id="insert-image" data-command="insertImage">🖼️</button>
                         <button id="insert-table" data-command="insertTable">📊 Table</button>
+                        <input type="file" id="image-upload" accept="image/*" style="display:none" />
                     </div>
         
                     <div class="toolbar-group">
@@ -79,11 +80,11 @@
                         <button id="reset-editor" data-command="reset-editor">♻️ Reset</button>
                         <button id="copy-plain" data-command="copy-plain">📋 Plain</button>
                         <button id="copy-html" data-command="copy-html">💻 HTML</button>
-                        <button id="preview" data-command="preview">🔍 Preview</button>
+                        <button id="preview" data-command="preview">📄 Preview</button>
                     </div>
         
                     <div class="toolbar-group">
-                       <button id="find-replace" data-command="find-replace">🔍</button>
+                       <button id="find-replace" data-command="find-replace">🔍 F&R</button>
                     </div>
                     <div class="toolbar-group">
                         <button id="toggle-theme">🌙</button>
@@ -101,6 +102,7 @@
                 <div id="footer-left">
                     <span id="word-count">Words: 0</span>
                     <span id="page-count">Number Of Pages: 0</span>
+                    <span id="save-status">Status: Not Saved</span>
                 </div>
                 <div id="footer-right">
                     <label for="zoom-slider">Zoom: 0</label>
@@ -122,13 +124,27 @@
             });
         </script>
         <script>
-            const editor = document.getElementById("white-page");
+            const editor = document.getElementById("main");
+            const saveStatusElement = document.getElementById("save-status");
+            const updateSaveStatus = (statusText) => {
+                saveStatusElement.textContent = `Status: ${statusText}`;
+            };
+
             editor.addEventListener("input", () => {
-            localStorage.setItem("documentContent", editor.innerHTML);
+                // updateSaveStatus("Saving...");
+                localStorage.setItem("documentContent", editor.innerHTML);
+                updateSaveStatus("Saved");
             });
             window.addEventListener("load", () => {
             const saved = localStorage.getItem("documentContent");
-            if (saved) editor.innerHTML = saved;
+            if (saved){
+                editor.innerHTML = saved;   
+                editor.querySelectorAll(".page").forEach(p => p.contentEditable = "true");
+                updateSaveStatus("Saving...");
+            }
+            else{
+                updateSaveStatus("Not Saved (New Document)");
+            }
             });
         </script>
         <script src="font.js"></script>

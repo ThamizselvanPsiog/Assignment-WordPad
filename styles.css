@@ -191,3 +191,47 @@ body.dark-mode #toolbar button{
 #zoom-slider {
     width: 120px;
 }
+
+.resizing-wrapper {
+    position: relative; 
+    display: inline-block; 
+    box-shadow: 0 0 0 2px #3399ff;
+    cursor: grab;
+    user-select: none; 
+}
+
+.resizing-wrapper img,
+.resizing-wrapper table {
+    display: block;
+    margin: 0;
+    max-width: 100%;
+}
+.resizing-handle {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    width: 12px;
+    height: 12px;
+    background: #3399ff;
+    border: 2px solid white;
+    border-radius: 50%;
+    z-index: 2000;
+}
+
+.resizing-handle{
+    display: none;
+}
+
+.resizing-wrapper:hover .resizing-handle{
+    display: block;
+}
+
+.resizing-handle.nw { top: -5px; left: -5px; cursor: nwse-resize; }
+.resizing-handle.ne { top: -5px; right: -5px; cursor: nesw-resize; }
+.resizing-handle.sw { bottom: -5px; left: -5px; cursor: nesw-resize; }
+.resizing-handle.se { bottom: -5px; right: -5px; cursor: nwse-resize; }
+
+.resizing-handle.n { top: -5px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resizing-handle.s { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resizing-handle.w { left: -5px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+.resizing-handle.e { right: -5px; top: 50%; transform: translateY(-50%); cursor: ew-resize;}
