@@ -12,6 +12,7 @@ class Editor {
     this.createPage();
     this.bindSelectionEvents();
     this.bindToolbar();
+    this.bindFooter();
   }
 
   createPage(afterPage = null) {
@@ -33,6 +34,19 @@ class Editor {
     page.focus();
     this.activePage = page;
     return page;
+  }
+
+  updateWordCount() {
+  const text = this.getAllPagesContent()
+    .replace(/<[^>]*>/g, " ")
+    .trim();
+  const words = text.length ? text.split(/\s+/).length : 0;
+  document.getElementById("word-count").innerText = `Words: ${words}`;
+  }
+
+  updatePageCount() {
+  const pages = this.editor.querySelectorAll(".page").length;
+  document.getElementById("page-count").innerText = `Pages: ${pages}`;
   }
 
   saveSelection() {
@@ -192,6 +206,24 @@ class Editor {
         this.saveSelection();
       });
     });
+  }
+
+  bindFooter() {
+    this.editor.addEventListener("keyup", () => this.updateWordCount());
+    this.editor.addEventListener("mouseup", () => this.updateWordCount());
+  
+    const observer = new MutationObserver(() => this.updatePageCount());
+    observer.observe(this.editor, { childList: true });
+  
+    const zoomSlider = document.getElementById("zoom-slider");
+    zoomSlider.addEventListener("input", () => {
+      const zoom = zoomSlider.value;
+      this.editor.style.transform = `scale(${zoom/100})`;
+      this.editor.style.transformOrigin = "top left";
+    });
+  
+    this.updateWordCount();
+    this.updatePageCount();
   }
 }
 
