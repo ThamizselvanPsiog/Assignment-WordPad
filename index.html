@@ -57,12 +57,17 @@
                         <button data-command="outdent">⇤</button>
                         <button data-command="indent">⇥</button>
                     </div>
-        
+
+                    
                     <div class="toolbar-group">
                         <button data-command="insertUnOrderedList">• List</button>
                         <button data-command="insertOrderedList">1. List</button>
                     </div>
-        
+                    
+                    <div class="toolbar-group">
+                        <button data-command="export-pdf">📤EXTP</button>
+                    </div>
+
                     <div class="toolbar-group">
                         <button id="insert-link" data-command="createLink">🔗</button>
                         <button id="insert-image" data-command="insertImage">🖼️</button>
@@ -160,5 +165,21 @@
         </script>
         <script src="font.js"></script>
         <script src="dropdown.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+        <script>
+            document.querySelector('[data-command="export-pdf"]').addEventListener("click", function () {
+              const element = document.getElementById("main");
+          
+              const options = {
+                margin:       10,
+                filename:     'my-document.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+              };
+          
+              html2pdf().set(options).from(element).save();
+            });
+        </script>
     </body>
 </html>
