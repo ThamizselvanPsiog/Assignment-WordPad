@@ -9,13 +9,39 @@ class EditorBase {
     saveSelection() {
         const sel = window.getSelection();
         if (sel && sel.rangeCount > 0) this.savedRange = sel.getRangeAt(0).cloneRange();
+
+        this.savedPath=[];
+        let node=range.startContainer;
+        while(node && node!==this.editor){
+            const parent=node.parentNode;
+            const index=Array.prototype.indexOf.call(parent.childNodes,node);
+            this.savedPath.unshift(index);
+            node=parent;
+        }
+        this.savedOffset=range.startOffset;
     }
 
     restoreSelection() {
         if (!this.savedRange) return;
         const sel = window.getSelection();
         sel.removeAllRanges();
-        sel.addRange(this.savedRange.cloneRange());
+
+        try{
+           sel.addRange(this.savedRange.cloneRange());
+        }catch{
+            let node=this.editor;
+            for(let i of this .savedPath){
+                if(!node.childNodes[i]) break;
+                node=node.childNodes[i];
+            }
+
+            const range = document.createRange();
+            if (node) {
+                range.setStart(node, Math.min(this.savedOffset, node.textContent?.length || 0));
+                range.collapse(true);
+                sel.addRange(range);
+            }
+        }
     }
 
     createPage(afterPage = null) {
@@ -92,8 +118,8 @@ class Editor extends EditorBase {
     constructor() {
         super("main", "toolbar");
         this.resizer = null;
-        this.startX = 0;
-        this.startY = 0;
+        this.startX = 0; //mouse coordination
+        this.startY = 0; //mouse coordinations
         this.startWidth = 0;
         this.startHeight = 0;
         this.currentHandle = null;
@@ -505,8 +531,9 @@ class Editor extends EditorBase {
         this.editor.addEventListener("keyup", () => this.updateWordCount());
         this.editor.addEventListener("mouseup", () => this.updateWordCount());
 
-        const observer = new MutationObserver(() => this.updatePageCount());
-        observer.observe(this.editor, { childList: true });
+        const observer = new MutationObserver(() => this.updatePageCount()); //Watches for changes in DOM
+        observer.observe(this.editor, { childList: true }); //Detects when the user pastes something in the editor.
+        //Detects when formatting button change inline styles.
 
         const zoomSlider = document.getElementById("zoom-slider");
         zoomSlider.addEventListener("input", () => {
